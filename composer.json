@@ -1,0 +1,21 @@
+{
+    "name": "jockchou/smilespider",
+    "description": "a php spider framework",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "JockChou",
+            "email": "jockchou@qq.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "~6.2",
+        "monolog/monolog": "~1.19"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    }
+}
