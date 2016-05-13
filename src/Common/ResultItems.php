@@ -8,8 +8,30 @@
 
 namespace Common;
 
-
 class ResultItems
 {
+    private $fields;
 
+    public function get($key)
+    {
+        if (isset($this->fields[$key])) {
+            return $this->fields[$key];
+        }
+
+        return null;
+    }
+
+    public function getAll()
+    {
+        return $this->fields;
+
+    }
+
+    public function put($key, $value)
+    {
+        $this->fields[$key] = $value;
+
+        return $this;
+
+    }
 }

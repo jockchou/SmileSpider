@@ -20,7 +20,7 @@ class HttpDownloader implements Downloader
     function __construct()
     {
         $this->client = new Client();
-        $this->timeout = 2;
+        $this->timeout = 3;
     }
 
     /**
@@ -29,8 +29,13 @@ class HttpDownloader implements Downloader
      */
     public function download(Request $request)
     {
-        $response = $this->client->send($request, $this->timeout);
+        try {
+            $response = $this->client->send($request, ['timeout' => $this->timeout]);
 
-        return new Page($request, $response);
+            return new Page($request, $response);
+        } catch (\Exception $e) {
+
+            return null;
+        }
     }
 }

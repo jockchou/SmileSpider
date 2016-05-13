@@ -8,7 +8,6 @@
 
 namespace Scheduler;
 
-
 use GuzzleHttp\Psr7\Request;
 
 class QueueScheduler implements Scheduler
@@ -17,7 +16,7 @@ class QueueScheduler implements Scheduler
 
     function __construct()
     {
-        $this->queue = new SplQueue();
+        $this->queue = new \SplQueue();
     }
 
     public function push(Request $request)
