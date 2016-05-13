@@ -8,7 +8,6 @@
 
 namespace Spider;
 
-use Downloader\Downloader;
 use Downloader\HttpDownloader;
 use GuzzleHttp\Psr7\Request;
 use PageProcessor\PageProcessor;

@@ -46,15 +46,30 @@ class Page
         $this->requestMethod = $this->request->getMethod();
     }
 
+    /**
+     * @param $url
+     */
     public function addTargetRequest($url)
     {
         $this->targetRequests[] = new Request('GET', $url);
     }
 
+    /**
+     * @param array $urlList
+     */
     public function addTargetRequests(array $urlList)
     {
         foreach ($urlList as $url) {
             $this->addTargetRequest($url);
         }
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function putField($key, $value)
+    {
+        $this->resultItems->put($key, $value);
     }
 }

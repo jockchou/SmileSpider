@@ -8,7 +8,7 @@
 
 namespace Downloader;
 
-use \GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Request;
 
 interface Downloader
 {

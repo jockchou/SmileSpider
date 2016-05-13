@@ -2,17 +2,17 @@
 
 require_once(__DIR__ . '/../../vendor/autoload.php');
 
-use \PageProcessor\PageProcessor;
-use \Common\Page;
-use \Pipeline\ConsolePipeline;
+use PageProcessor\PageProcessor;
+use Common\Page;
+use Pipeline\ConsolePipeline;
 
 class BaiDuPageProcessor implements PageProcessor
 {
     public function process(Page &$page)
     {
-        $page->resultItems->put('statusCode', $page->statusCode);
-        $page->resultItems->put('url', $page->requestUrl);
-        $page->resultItems->put('body', mb_substr($page->body, 0, 20));
+        $page->putField('statusCode', $page->statusCode);
+        $page->putField('url', $page->requestUrl);
+        $page->putField('body', mb_substr($page->body, 0, 100));
 
         if ($page->requestUrl == "http://baidu.com") {
             $page->addTargetRequests(['http://www.sohu.com', 'http://www.oschina.net']);

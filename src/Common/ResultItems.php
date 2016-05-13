@@ -12,6 +12,12 @@ class ResultItems
 {
     private $fields;
 
+    function __construct()
+    {
+        $this->fields = [];
+    }
+
+
     public function get($key)
     {
         if (isset($this->fields[$key])) {

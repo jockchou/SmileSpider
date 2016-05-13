@@ -8,7 +8,7 @@
 
 namespace Pipeline;
 
-use \Common\ResultItems;
+use Common\ResultItems;
 
 interface Pipeline
 {

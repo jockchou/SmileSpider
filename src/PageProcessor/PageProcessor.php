@@ -8,7 +8,7 @@
 
 namespace PageProcessor;
 
-use \Common\Page;
+use Common\Page;
 
 interface PageProcessor
 {

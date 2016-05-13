@@ -8,7 +8,7 @@
 
 namespace Scheduler;
 
-use \GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Request;
 
 interface Scheduler
 {
