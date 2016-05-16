@@ -31,6 +31,8 @@ $fork = new \Common\Fork;
 
 for ($i = 0; $i < 5; $i++) {
     $fork->call(function () use ($msgQueue) {
+        $pid = posix_getpid();
+        echo "current p: $pid\n";
         while ($msgQueue->count() > 0) {
             handleMessage($msgQueue, $msgQueue->poll());
         }
