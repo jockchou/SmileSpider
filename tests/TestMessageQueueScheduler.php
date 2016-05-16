@@ -15,9 +15,10 @@ $msgQueue = new MessageQueueScheduler();
 
 $msgQueue->push("0");
 
-function handleMessage($msgQueue, $message, $p)
+function handleMessage($msgQueue, $message)
 {
-    echo "handle message: " . $message . ", current p: $p\n";
+    $pid = posix_getgid();
+    echo "handle message: " . $message . ", current p: $pid\n";
 
     if ($message === "0") {
         for ($i = 1; $i <= 5; $i++) {
@@ -29,9 +30,9 @@ function handleMessage($msgQueue, $message, $p)
 $fork = new \Common\Fork;
 
 for ($i = 0; $i < 5; $i++) {
-    $fork->call(function () use ($msgQueue, $i) {
+    $fork->call(function () use ($msgQueue) {
         while ($msgQueue->count() > 0) {
-            handleMessage($msgQueue, $msgQueue->poll(), $i);
+            handleMessage($msgQueue, $msgQueue->poll());
         }
     });
 }
