@@ -36,8 +36,9 @@ do {
 
     $message = $msgQueue->poll();
 
-    echo $message->getUri();
+    echo $message . "\n";
 
+    
     //需要判断队列是否为空，如果为空就退出
     if ($msgQueue->count() <= 0) {
         break;
