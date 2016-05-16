@@ -32,28 +32,21 @@ class MessageQueueScheduler implements Scheduler
 
     public function push($request)
     {
-        $this->locker->acquire();
         $result = msg_send($this->queue, self::MSG_TYPE, $request, false, false);
-        $this->locker->release();
 
         return $result;
     }
 
     public function poll()
     {
-        //$this->locker->acquire();
         msg_receive($this->queue, 0, $msgType, self::MAX_SIZE, $message, false, MSG_IPC_NOWAIT);
-
-        //$this->locker->release();
 
         return $message;
     }
 
     public function count()
     {
-        $this->locker->acquire();
         $msgStat = msg_stat_queue($this->queue);
-        $this->locker->release();
 
         return $msgStat['msg_qnum'];
     }
