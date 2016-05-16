@@ -8,11 +8,9 @@
 
 namespace Scheduler;
 
-use GuzzleHttp\Psr7\Request;
-
 interface Scheduler
 {
-    public function push(Request $request);
+    public function push($request);
 
     public function poll();
 

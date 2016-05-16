@@ -26,7 +26,7 @@ class MessageQueueScheduler implements Scheduler
         $this->queue = msg_get_queue($this->key);
     }
 
-    public function push(Request $request)
+    public function push($request)
     {
         return msg_send($this->queue, self::MSG_TYPE, $request);
     }
