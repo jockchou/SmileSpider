@@ -13,34 +13,31 @@ use Scheduler\MessageQueueScheduler;
 
 $msgQueue = new MessageQueueScheduler();
 
-$pids = array();
+$msgQueue->push("0");
 
-for ($i = 0; $i < 5; $i++) {
-    //创建子进程
-    $pids[$i] = pcntl_fork();
+function handleMessage($message)
+{
+    sleep(rand(1, 3));
+    echo "handle message: " . $message . "\n";
 
-    if ($pids[$i]) {
-        echo "No.$i child process was created, the pid is $pids[$i]\n";
-    } elseif ($pids[$i] == 0) {
-        $pid = posix_getpid();
-
-        echo "process.$pid is writing now\n";
-        echo "process.$pid count: " . $msgQueue->count() . "\n";
-
-        $msgQueue->push("data-" . $i);
-        posix_kill($pid, SIGTERM);
+    for ($i = 0; $i < 3; $i++) {
+        $msgQueue->push($message . "-->" . $i);
     }
 }
 
-do {
+for ($i = 0; $i < 25; $i++) {
+    //创建子进程
+    $pid = pcntl_fork();
 
-    $message = $msgQueue->poll();
+    if ($pid) {
+        echo "No.$i child process was created, the pid is $pid\n";
+    } elseif ($pid == 0) {
+        while ($msgQueue->count() > 0) {
+            //从队列里取一个
+            $message = $msgQueue->poll();
 
-    echo $message . "\n";
-    echo "main process count: " . $msgQueue->count() . "\n";
-
-    //需要判断队列是否为空，如果为空就退出
-    if ($msgQueue->count() <= 0) {
-        break;
+            //处理消息
+            handleMessage($message);
+        }
     }
-} while (true);
+}
