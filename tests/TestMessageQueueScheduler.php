@@ -20,9 +20,9 @@ function handleMessage($msgQueue, $message, $index)
     sleep(rand(1, 3));
     echo "handle message: " . $message . ", current p: $index\n";
 
-    if ($index === 0) {
-        for ($i = 1; $i <= 2; $i++) {
-            $msgQueue->push($message . "-->" . $i);
+    if ($message === "0") {
+        for ($i = 1; $i <= 5; $i++) {
+            $msgQueue->push($i);
         }
     }
 }
@@ -30,10 +30,9 @@ function handleMessage($msgQueue, $message, $index)
 $fork = new \Common\Fork;
 
 for ($i = 0; $i < 5; $i++) {
-    $fork->call(function () use ($msgQueue, $i) {
-        echo "create p: " . $i;
+    $fork->call(function () use ($msgQueue) {
         while ($msgQueue->count() > 0) {
-            handleMessage($msgQueue, $msgQueue->poll(), $i);
+            handleMessage($msgQueue, $msgQueue->poll());
         }
     });
 }
