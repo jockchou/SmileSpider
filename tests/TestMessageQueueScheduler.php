@@ -10,10 +10,15 @@
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 use Scheduler\MessageQueueScheduler;
+use Ko\Semaphore;
+
+const EMPTY_WAIT_TIME = 30;
 
 $msgQueue = new MessageQueueScheduler();
+$locker = new Semaphore();
 
 $msgQueue->push("0");
+
 
 function handleMessage($msgQueue, $message)
 {
@@ -39,8 +44,19 @@ $fork = new \Common\Fork;
 
 for ($i = 0; $i < 5; $i++) {
     $fork->call(function () use ($msgQueue) {
-        while ($msgQueue->count() > 0) {
-            handleMessage($msgQueue, $msgQueue->poll());
+        while (true) {
+            $message = null;
+            $locker->acquire();
+            if ($msgQueue->count() > 0) {
+                $message = $msgQueue->poll();
+                $locker->release();
+            } else {
+                $locker->release();
+                break;
+            }
+            if ($message) {
+                handleMessage($msgQueue, $message);
+            }
         }
 
         $pid = posix_getpid();
