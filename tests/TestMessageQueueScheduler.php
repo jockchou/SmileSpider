@@ -26,8 +26,6 @@ for ($i = 0; $i < 5; $i++) {
 
         echo "process.$pid is writing now\r\n";
 
-        msg_send($message_queue, 1, "this is process.$pid's data\r\n");
-
         $msgQueue->push(new \GuzzleHttp\Psr7\Request("GET", "http://$i.com"));
 
         posix_kill($pid, SIGTERM);
@@ -35,7 +33,9 @@ for ($i = 0; $i < 5; $i++) {
 }
 
 do {
-    msg_receive($message_queue, 0, $message_type, 1024, $message, true, MSG_IPC_NOWAIT);
+
+    $message = $msgQueue->poll();
+
     echo $message;
 
     //需要判断队列是否为空，如果为空就退出
