@@ -21,7 +21,7 @@ function handleMessage($msgQueue, $message)
 
     echo "handle message: " . $message . ", current p: $pid\n";
 
-    if ($message === "0") {
+    if ($message === "0" || $message === "100") {
         for ($i = 1; $i <= 100; $i++) {
             $msgQueue->push($i);
         }
