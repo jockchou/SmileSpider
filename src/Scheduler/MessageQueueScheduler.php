@@ -26,9 +26,8 @@ class MessageQueueScheduler implements Scheduler
         $this->queue = msg_get_queue($this->key);
     }
 
-    function __destruct()
+    public function clear()
     {
-        echo "__destruct";
         msg_remove_queue($this->queue);
     }
 
