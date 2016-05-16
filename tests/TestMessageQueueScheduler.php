@@ -15,6 +15,16 @@ $msgQueue = new MessageQueueScheduler();
 
 $msgQueue->push("0");
 
+while ($msgQueue->count() > 0) {
+
+    $msg = $msgQueue->poll();
+
+    var_dump($msg);
+}
+
+
+
+/*
 function handleMessage($msgQueue, $message, $index)
 {
     sleep(rand(1, 3));
@@ -38,3 +48,5 @@ for ($i = 0; $i < 5; $i++) {
 }
 
 $fork->wait();
+
+*/

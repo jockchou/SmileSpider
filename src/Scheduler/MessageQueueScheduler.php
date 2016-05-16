@@ -35,14 +35,13 @@ class MessageQueueScheduler implements Scheduler
     {
         msg_receive($this->queue, 0, $msgType, self::MAX_SIZE, $message, false, MSG_IPC_NOWAIT);
 
-        var_dump($message);
         return $message;
     }
 
     public function count()
     {
         $msgStat = msg_stat_queue($this->queue);
-
+        var_dump($msgStat);
         return $msgStat['msg_qnum'];
     }
 }
