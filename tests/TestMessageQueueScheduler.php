@@ -17,7 +17,6 @@ $msgQueue->push("0");
 
 function handleMessage($msgQueue, $message, $p)
 {
-    sleep(rand(1, 3));
     echo "handle message: " . $message . ", current p: $p\n";
 
     if ($message === "0") {
@@ -32,6 +31,8 @@ $fork = new \Common\Fork;
 for ($i = 0; $i < 5; $i++) {
     $fork->call(function () use ($msgQueue, $i) {
         while ($msgQueue->count() > 0) {
+            $size = $msgQueue->count();
+            echo "quene size: " . $size . "\n";
             handleMessage($msgQueue, $msgQueue->poll(), $i);
         }
     });
