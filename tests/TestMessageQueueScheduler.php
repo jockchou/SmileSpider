@@ -20,14 +20,14 @@ for ($i = 0; $i < 5; $i++) {
     $pids[$i] = pcntl_fork();
 
     if ($pids[$i]) {
-        echo "No.$i child process was created, the pid is $pids[$i]\r\n";
+        echo "No.$i child process was created, the pid is $pids[$i]\n";
     } elseif ($pids[$i] == 0) {
         $pid = posix_getpid();
 
-        echo "process.$pid is writing now\r\n";
+        echo "process.$pid is writing now\n";
+        echo "process.$pid count: " . $msgQueue->count() . "\n";
 
         $msgQueue->push("data-" . $i);
-
         posix_kill($pid, SIGTERM);
     }
 }
@@ -37,8 +37,8 @@ do {
     $message = $msgQueue->poll();
 
     echo $message . "\n";
+    echo "main process count: " . $msgQueue->count() . "\n";
 
-    
     //需要判断队列是否为空，如果为空就退出
     if ($msgQueue->count() <= 0) {
         break;
