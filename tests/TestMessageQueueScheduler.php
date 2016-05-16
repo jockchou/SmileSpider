@@ -15,7 +15,7 @@ $msgQueue = new MessageQueueScheduler();
 
 $msgQueue->push("0");
 
-function handleMessage($message)
+function handleMessage($msgQueue, $message)
 {
     sleep(rand(1, 3));
     echo "handle message: " . $message . "\n";
@@ -30,7 +30,7 @@ $fork = new \duncan3dc\Helpers\Fork;
 for ($i = 0; $i < 5; $i++) {
     $fork->call(function () use ($msgQueue) {
         while ($msgQueue->count() > 0) {
-            handleMessage($msgQueue->poll());
+            handleMessage($msgQueue, $msgQueue->poll());
         }
     });
 }
