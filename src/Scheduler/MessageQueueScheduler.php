@@ -46,7 +46,6 @@ class MessageQueueScheduler implements Scheduler
     public function count()
     {
         $msgStat = msg_stat_queue($this->queue);
-        var_dump($msgStat);
 
         return $msgStat['msg_qnum'];
     }
