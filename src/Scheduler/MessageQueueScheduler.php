@@ -26,6 +26,11 @@ class MessageQueueScheduler implements Scheduler
         $this->queue = msg_get_queue($this->key);
     }
 
+    function __destruct()
+    {
+        msg_remove_queue($this->queue);
+    }
+
     public function push($request)
     {
         return msg_send($this->queue, self::MSG_TYPE, $request, false, false);
@@ -42,6 +47,7 @@ class MessageQueueScheduler implements Scheduler
     {
         $msgStat = msg_stat_queue($this->queue);
         var_dump($msgStat);
+
         return $msgStat['msg_qnum'];
     }
 }
