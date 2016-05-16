@@ -18,7 +18,7 @@ $msgQueue->push("0");
 function handleMessage($msgQueue, $message, $index)
 {
     sleep(rand(1, 3));
-    echo "handle message: " . $message . "current p: $index\n";
+    echo "handle message: " . $message . ", current p: $index\n";
 
     if ($index === 0) {
         for ($i = 1; $i <= 2; $i++) {
