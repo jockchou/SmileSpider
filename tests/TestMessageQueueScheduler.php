@@ -21,11 +21,18 @@ function handleMessage($msgQueue, $message)
 
     echo "handle message: " . $message . ", current p: $pid\n";
 
-    if ($message === "0" || $message === "100") {
+    if ($message === "0") {
         for ($i = 1; $i <= 100; $i++) {
             $msgQueue->push($i);
         }
     }
+
+    if ($message === "100") {
+        for ($i = 101; $i <= 200; $i++) {
+            $msgQueue->push($i);
+        }
+    }
+
 }
 
 $fork = new \Common\Fork;
