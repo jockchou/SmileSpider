@@ -42,6 +42,9 @@ for ($i = 0; $i < 5; $i++) {
         while ($msgQueue->count() > 0) {
             handleMessage($msgQueue, $msgQueue->poll());
         }
+
+        $pid = posix_getpid();
+        echo "process: $pid end!\n";
     });
 }
 
