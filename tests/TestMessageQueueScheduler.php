@@ -31,7 +31,9 @@ $fork = new \Common\Fork;
 
 for ($i = 0; $i < 5; $i++) {
     $fork->call(function () use ($msgQueue, $i) {
-        while ($msgQueue->count() > 0) {
+        $size = $msgQueue->count();
+        echo "quene size: " . $size . "\n";
+        while ($size > 0) {
             handleMessage($msgQueue, $msgQueue->poll(), $i);
         }
     });
