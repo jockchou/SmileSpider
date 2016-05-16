@@ -9,6 +9,8 @@
 
 require_once(__DIR__ . '/../../vendor/autoload.php');
 
+use Scheduler\MessageQueueScheduler;
+
 $msgQueue = new MessageQueueScheduler();
 
 $pids = array();
