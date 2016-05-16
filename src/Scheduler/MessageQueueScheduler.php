@@ -28,6 +28,7 @@ class MessageQueueScheduler implements Scheduler
 
     function __destruct()
     {
+        echo "__destruct";
         msg_remove_queue($this->queue);
     }
 
