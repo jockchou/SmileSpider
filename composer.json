@@ -10,9 +10,11 @@
         }
     ],
     "require": {
+        "ext-pcntl": "*",
+        "ext-shmop": "*",
+        "php": ">=5.6.16",
         "guzzlehttp/guzzle": "~6.2",
-        "monolog/monolog": "~1.19",
-        "duncan3dc/fork-helper": "~1.1"
+        "monolog/monolog": "~1.19"
     },
     "autoload": {
         "psr-4": {

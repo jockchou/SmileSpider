@@ -15,24 +15,26 @@ $msgQueue = new MessageQueueScheduler();
 
 $msgQueue->push("0");
 
-function handleMessage($msgQueue, $message)
+function handleMessage($msgQueue, $message, $index)
 {
     sleep(rand(1, 3));
     echo "handle message: " . $message . "\n";
 
-    for ($i = 0; $i < 3; $i++) {
-        $msgQueue->push($message . "-->" . $i);
+    if ($index === 0) {
+        for ($i = 1; $i <= 20; $i++) {
+            $msgQueue->push($message . "-->" . $i);
+        }
     }
 }
 
-$fork = new \duncan3dc\Helpers\Fork;
+$fork = new \Common\Fork;
 
 for ($i = 0; $i < 5; $i++) {
-    $fork->call(function () use ($msgQueue) {
+    $fork->call(function ($index) use ($msgQueue) {
         while ($msgQueue->count() > 0) {
-            handleMessage($msgQueue, $msgQueue->poll());
+            handleMessage($msgQueue, $msgQueue->poll(), $index);
         }
-    });
+    }, $i);
 }
 
 $fork->wait();
