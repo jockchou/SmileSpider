@@ -8,14 +8,12 @@
 
 namespace Scheduler;
 
-use Ko\Semaphore;
 use GuzzleHttp\Psr7\Request;
 
 class MessageQueueScheduler implements Scheduler
 {
     private $queue;
     private $key;
-    private $locker;
 
     const MSG_TYPE = 1;
     const MAX_SIZE = 2048;
@@ -23,7 +21,6 @@ class MessageQueueScheduler implements Scheduler
     function __construct()
     {
         $this->key = ftok(__FILE__, 'G');
-        $this->locker = new Semaphore();
         if ($this->key === -1) {
             throw new \Exception("Failed to ftok");
         }

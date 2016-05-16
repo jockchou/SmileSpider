@@ -33,7 +33,6 @@ function handleMessage($msgQueue, $message)
             $msgQueue->push($i);
         }
     }
-
 }
 
 $fork = new \Common\Fork;
