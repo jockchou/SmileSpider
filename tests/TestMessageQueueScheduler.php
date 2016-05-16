@@ -18,6 +18,8 @@ $msgQueue->push("0");
 function handleMessage($msgQueue, $message)
 {
     $pid = posix_getpid();
+
+    sleep(1);
     echo "handle message: " . $message . ", current p: $pid\n";
 
     if ($message === "0") {
@@ -31,8 +33,6 @@ $fork = new \Common\Fork;
 
 for ($i = 0; $i < 5; $i++) {
     $fork->call(function () use ($msgQueue) {
-        $pid = posix_getpid();
-        echo "current p: $pid\n";
         while ($msgQueue->count() > 0) {
             handleMessage($msgQueue, $msgQueue->poll());
         }
