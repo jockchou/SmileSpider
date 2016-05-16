@@ -25,19 +25,14 @@ function handleMessage($message)
     }
 }
 
-for ($i = 0; $i < 25; $i++) {
-    //创建子进程
-    $pid = pcntl_fork();
+$fork = new \duncan3dc\Helpers\Fork;
 
-    if ($pid) {
-        echo "No.$i child process was created, the pid is $pid\n";
-    } elseif ($pid == 0) {
+for ($i = 0; $i < 5; $i++) {
+    $fork->call(function () use ($msgQueue) {
         while ($msgQueue->count() > 0) {
-            //从队列里取一个
-            $message = $msgQueue->poll();
-
-            //处理消息
-            handleMessage($message);
+            handleMessage($msgQueue->poll());
         }
-    }
+    });
 }
+
+$fork->wait();
