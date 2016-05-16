@@ -17,7 +17,7 @@ $msgQueue->push("0");
 
 function handleMessage($msgQueue, $message)
 {
-    $pid = posix_getgid();
+    $pid = posix_getpid();
     echo "handle message: " . $message . ", current p: $pid\n";
 
     if ($message === "0") {
