@@ -31,6 +31,7 @@ $fork = new \Common\Fork;
 
 for ($i = 0; $i < 5; $i++) {
     $fork->call(function () use ($msgQueue, $i) {
+        echo "create p: " . $i;
         while ($msgQueue->count() > 0) {
             handleMessage($msgQueue, $msgQueue->poll(), $i);
         }
