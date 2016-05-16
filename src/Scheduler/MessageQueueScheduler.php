@@ -28,7 +28,7 @@ class MessageQueueScheduler implements Scheduler
 
     public function push($request)
     {
-        return msg_send($this->queue, self::MSG_TYPE, $request);
+        return msg_send($this->queue, self::MSG_TYPE, $request, false, false);
     }
 
     public function poll()
