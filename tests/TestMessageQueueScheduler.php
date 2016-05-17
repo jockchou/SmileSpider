@@ -46,9 +46,8 @@ for ($i = 0; $i < 3; $i++) {
                 $locker->release();
                 handleMessage($msgQueue, $message);
             } else {
-
+                $locker->release();
             }
-            $locker->release();
         }
         $pid = posix_getpid();
         echo "process: $pid end!\n";
