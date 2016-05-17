@@ -15,50 +15,41 @@ use Ko\Semaphore;
 const EMPTY_WAIT_TIME = 30;
 
 $msgQueue = new MessageQueueScheduler();
-$locker = new Semaphore();
 
 $msgQueue->push("0");
 
 
-function handleMessage($msgQueue, $message)
+function handleMessage(&$msgQueue, $message)
 {
     $pid = posix_getpid();
 
     echo "handle message: " . $message . ", current p: $pid\n";
 
     sleep(1);
+
     if ($message === "0") {
         for ($i = 1; $i <= 100; $i++) {
-            $msgQueue->push($i);
-        }
-    }
-
-    if ($message === "100") {
-        for ($i = 101; $i <= 200; $i++) {
             $msgQueue->push($i);
         }
     }
 }
 
 $fork = new \Common\Fork;
+$locker = new Semaphore();
 
-for ($i = 0; $i < 5; $i++) {
-    $fork->call(function () use ($msgQueue) {
+for ($i = 0; $i < 3; $i++) {
+    $fork->call(function () use (&$msgQueue, &$locker) {
         while (true) {
-            $message = null;
             $locker->acquire();
             if ($msgQueue->count() > 0) {
                 $message = $msgQueue->poll();
                 $locker->release();
-            } else {
-                $locker->release();
-                break;
-            }
-            if ($message) {
                 handleMessage($msgQueue, $message);
-            }
-        }
+            } else {
 
+            }
+            $locker->release();
+        }
         $pid = posix_getpid();
         echo "process: $pid end!\n";
     });

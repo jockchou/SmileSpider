@@ -21,6 +21,8 @@ class MessageQueueScheduler implements Scheduler
     function __construct()
     {
         $this->key = ftok(__FILE__, 'G');
+
+        echo "queue key: " . $this->key . "\n";
         if ($this->key === -1) {
             throw new \Exception("Failed to ftok");
         }
